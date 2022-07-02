@@ -60,6 +60,7 @@ class Sql2oDonationRequestDaoTest {
   }
 
   @Test
+  @DisplayName("Test that a donation request can be updated")
   public void update_updatesDonationRequest_true(DonationRequest request) {
     donationRequestDao.add(request);
 
@@ -72,6 +73,7 @@ class Sql2oDonationRequestDaoTest {
   }
 
   @Test
+  @DisplayName("Test that a donation request can be deleted")
   public void delete_deletesDonationRequest_false(DonationRequest request) {
     donationRequestDao.add(request);
     donationRequestDao.delete(request.getId());
@@ -79,6 +81,7 @@ class Sql2oDonationRequestDaoTest {
   }
 
   @Test
+  @DisplayName("Test that all donation requests can be deleted")
   public void delete_deletesAllDonationRequests_true(DonationRequest request) {
     donationRequestDao.add(request);
     donationRequestDao.add(setUpRequest());
