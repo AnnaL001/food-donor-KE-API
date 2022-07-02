@@ -23,7 +23,7 @@ class Sql2oCharityContactDaoTest {
   }
 
   @Test
-  @DisplayName("Test that a charity's contact can be added")
+  @DisplayName("Test that a charity's contact details can be added")
   public void add_addsCharityContact_true(CharityContact contact) {
     contactDao.add(contact);
     assertNotNull(contactDao.getContact(contact.getCharity_id()));
@@ -44,7 +44,21 @@ class Sql2oCharityContactDaoTest {
     assertEquals(contact, foundContact);
   }
 
+  @Test
+  @DisplayName("Test that a charity's contact details can be updated")
+  public void update_updatesCharityContact_true(CharityContact charityContact) {
+    contactDao.add(charityContact);
 
+    // Update contact details
+    charityContact.setPhone("+254718983799");
+    charityContact.setEmail("info@ourheart.org");
+    charityContact.setFacebook("https://facebook.com/ourheart");
+    charityContact.setTwitter("https://twitter.com/ourheart");
+    charityContact.setInstagram("https://instagram.com/ourheart");
+    contactDao.update(charityContact);
+
+    assertEquals(charityContact, contactDao.getContact(charityContact.getCharity_id()));
+  }
 
   @AfterEach
   public void tearDown() {
