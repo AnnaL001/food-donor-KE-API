@@ -63,6 +63,26 @@ class Sql2oFoodDonationDaoTest {
     assertEquals(donation, foodDonationDao.getFoodDonations().get(0));
   }
 
+  @Test
+  @DisplayName("Test that a food donation type can be deleted")
+  public void delete_deletesFoodDonation_false(FoodDonation donation) {
+    foodDonationDao.add(List.of(donation));
+    foodDonationDao.delete(donation.getId());
+    assertFalse(foodDonationDao.getFoodDonations().contains(donation));
+  }
+
+  @Test
+  @DisplayName("Test that all food donation types can be deleted")
+  public void deleteAll_deletesAllFoodDonation_true(FoodDonation donation) {
+    foodDonationDao.add(List.of(donation, setUpFoodDonation()));
+    foodDonationDao.deleteAll();
+    assertEquals(0, foodDonationDao.getFoodDonations().size());
+  }
+
+  public FoodDonation setUpFoodDonation(){
+    return new FoodDonation("Vegetable cutoffs", 1);
+  }
+
   @AfterEach
   public void tearDown() {
     foodDonationDao.deleteAll();
