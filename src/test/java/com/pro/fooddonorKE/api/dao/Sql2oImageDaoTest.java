@@ -80,6 +80,23 @@ class Sql2oImageDaoTest {
     assertEquals(image, imageDao.getImages().get(0));
   }
 
+  @Test
+  @DisplayName("Test that a charity's image can be deleted")
+  public void delete_deletesImage_false(Image image) {
+    imageDao.add(image);
+    imageDao.delete(image.getId());
+    assertFalse(imageDao.getImages().contains(image));
+  }
+
+  @Test
+  @DisplayName("Test that all images can be deleted")
+  public void deleteAll_deletesAllImages_true(Image image) {
+    imageDao.add(image);
+    imageDao.add(setUpDescriptionImages());
+    imageDao.deleteAll();
+    assertEquals(0, imageDao.getImages().size());
+  }
+
   public List<Image> setUpDescriptionImages() {
     return new ArrayList<>(List.of(
             new Image("https://www.image1.png", "secondary", 1),
