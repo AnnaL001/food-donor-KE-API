@@ -53,6 +53,22 @@ class Sql2oCharityDaoTest {
     assertEquals(charity, foundCharity);
   }
 
+  @Test
+  public void update_updatesCharityData_true(Charity charity) {
+    charityDao.add(charity);
+
+    // Update charity data
+    charity.setName("Our Heart Rehabilitation Center");
+    charity.setType("Human Services");
+    charity.setLocation("Westlands, Nairobi");
+    charity.setDescription("A place of rehabilitation for vulnerable children");
+    charity.setWebsite("https://ourheartrehababilitationcenter.org");
+    charityDao.update(charity);
+
+    assertEquals(charity, charityDao.get(charity.getId()));
+  }
+
+
 
   @AfterEach
   public void tearDown() {
