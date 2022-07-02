@@ -51,7 +51,17 @@ class Sql2oFoodDonationDaoTest {
     assertEquals(List.of(donation), foodDonationDao.getFoodDonations());
   }
 
+  @Test
+  @DisplayName("Test that a food donation type can be updated")
+  public void update_updatesFoodDonation_true(FoodDonation donation) {
+    foodDonationDao.add(List.of(donation));
 
+    // Update donation type
+    donation.setName("Ready made food");
+    foodDonationDao.update(donation);
+
+    assertEquals(donation, foodDonationDao.getFoodDonations().get(0));
+  }
 
   @AfterEach
   public void tearDown() {
