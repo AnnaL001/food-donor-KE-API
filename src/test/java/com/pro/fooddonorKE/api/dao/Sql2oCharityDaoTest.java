@@ -7,6 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(CharityParameterResolver.class)
@@ -35,6 +37,21 @@ class Sql2oCharityDaoTest {
     assertNotEquals(initialId, charity.getId());
   }
 
+  @Test
+  @DisplayName("Test that the list of charities can be retrieved")
+  public void getAll_retrievesCharity_true(Charity charity) {
+    charityDao.add(charity);
+    Charity[] charities = {charity};
+    assertEquals(Arrays.asList(charities), charityDao.getAll());
+  }
+
+  @Test
+  @DisplayName("Test that a specific charity can be retrieved")
+  public void get_retrievesSpecificCharity_true(Charity charity) {
+    charityDao.add(charity);
+    Charity foundCharity = charityDao.get(charity.getId());
+    assertEquals(charity, foundCharity);
+  }
 
 
   @AfterEach
