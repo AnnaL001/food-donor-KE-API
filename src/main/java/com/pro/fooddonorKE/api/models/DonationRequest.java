@@ -15,11 +15,10 @@ public class DonationRequest {
     public DonationRequest() {
     }
 
-    public DonationRequest(String message, String location, int charity_id) {
+    public DonationRequest(String message, String location) {
         this.id = 0;
         this.message = message;
         this.location = location;
-        this.charity_id = charity_id;
     }
 
     public int getId() {
@@ -75,11 +74,11 @@ public class DonationRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DonationRequest that = (DonationRequest) o;
-        return charity_id == that.charity_id && Objects.equals(message, that.message) && Objects.equals(location, that.location);
+        return Objects.equals(message, that.message) && Objects.equals(location, that.location);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(message, location, charity_id);
+        return Objects.hash(message, location);
     }
 }
