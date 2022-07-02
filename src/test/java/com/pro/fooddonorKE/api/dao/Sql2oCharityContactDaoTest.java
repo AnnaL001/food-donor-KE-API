@@ -87,7 +87,7 @@ class Sql2oCharityContactDaoTest {
   }
 
   public CharityContact setUpContact(){
-    return new CharityContact("+254718983790", "info@ourheart1.org", "https://facebook.com/ourheart1", "https://twitter.com/ourheart1", "https://instagram.com/ourheart1", 2);
+    return new CharityContact("+254718983790", "info@ourheart1.org", "https://facebook.com/ourheart1", "https://twitter.com/ourheart1", "https://instagram.com/ourheart1");
   }
 
   @AfterEach
