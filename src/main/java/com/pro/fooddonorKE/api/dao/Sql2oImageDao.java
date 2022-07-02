@@ -33,7 +33,9 @@ public class Sql2oImageDao implements ImageDao {
   @Override
   public void add(List<Image> images) {
     for (Image image: images) {
-      add(image);
+      if(!getImages().contains(image)){
+        add(image);
+      }
     }
   }
 
