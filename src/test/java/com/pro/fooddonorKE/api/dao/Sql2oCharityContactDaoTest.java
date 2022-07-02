@@ -26,7 +26,7 @@ class Sql2oCharityContactDaoTest {
   @DisplayName("Test that a charity's contact details can be added")
   public void add_addsCharityContact_true(CharityContact contact) {
     contactDao.add(contact);
-    assertNotNull(contactDao.getContact(contact.getCharity_id()));
+    assertNotNull(contactDao.get(contact.getCharity_id()));
   }
 
   @Test
@@ -40,7 +40,7 @@ class Sql2oCharityContactDaoTest {
   @DisplayName("Test that a charity's contact can be retrieved")
   public void getContact_retrievesCharityContact(CharityContact contact) {
     contactDao.add(contact);
-    CharityContact foundContact = contactDao.getContact(contact.getCharity_id());
+    CharityContact foundContact = contactDao.get(contact.getCharity_id());
     assertEquals(contact, foundContact);
   }
 
@@ -57,7 +57,28 @@ class Sql2oCharityContactDaoTest {
     charityContact.setInstagram("https://instagram.com/ourheart");
     contactDao.update(charityContact);
 
-    assertEquals(charityContact, contactDao.getContact(charityContact.getCharity_id()));
+    assertEquals(charityContact, contactDao.get(charityContact.getCharity_id()));
+  }
+
+  @Test
+  @DisplayName("Test that a charity's data can be deleted")
+  public void delete_deletesCharityContact_false(CharityContact contact) {
+    contactDao.add(contact);
+    contactDao.delete(contact.getId());
+    assertFalse(contactDao.getAll().contains(contact));
+  }
+
+  @Test
+  @DisplayName("Test that all charities data can be deleted")
+  public void deleteAll_deletesAllCharitiesContacts_true(CharityContact contact) {
+    contactDao.add(contact);
+    contactDao.add(setUpContact());
+    contactDao.deleteAll();
+    assertEquals(0, contactDao.getAll().size());
+  }
+
+  public CharityContact setUpContact(){
+    return new CharityContact("+254718983790", "info@ourheart1.org", "https://facebook.com/ourheart1", "https://twitter.com/ourheart1", "https://instagram.com/ourheart1", 2);
   }
 
   @AfterEach
