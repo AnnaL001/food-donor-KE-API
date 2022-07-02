@@ -2,16 +2,10 @@ package com.pro.fooddonorKE.api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.pro.fooddonorKE.api.dao.Sql2oCharityContactDao;
-import com.pro.fooddonorKE.api.dao.Sql2oCharityDao;
-import com.pro.fooddonorKE.api.dao.Sql2oFoodDonationDao;
-import com.pro.fooddonorKE.api.dao.Sql2oImageDao;
+import com.pro.fooddonorKE.api.dao.*;
 import com.pro.fooddonorKE.api.enums.Response;
 import com.pro.fooddonorKE.api.exception.ApiException;
-import com.pro.fooddonorKE.api.models.Charity;
-import com.pro.fooddonorKE.api.models.CharityContact;
-import com.pro.fooddonorKE.api.models.FoodDonation;
-import com.pro.fooddonorKE.api.models.Image;
+import com.pro.fooddonorKE.api.models.*;
 import com.pro.fooddonorKE.api.response.ApiResponse;
 import org.sql2o.Sql2o;
 
@@ -28,6 +22,7 @@ public class Main {
         Sql2oImageDao imageDao = new Sql2oImageDao(sql2o);
         Sql2oFoodDonationDao foodDonationDao = new Sql2oFoodDonationDao(sql2o);
         Sql2oCharityContactDao charityContactDao = new Sql2oCharityContactDao(sql2o);
+        Sql2oDonationRequestDao donationRequestDao = new Sql2oDonationRequestDao(sql2o);
         Gson gson = new Gson();
 
         // CREATE CHARITY
@@ -129,6 +124,26 @@ public class Main {
                 contact.setCharity_id(charity.getId());
 
                 charityContactDao.add(contact);
+                response.status(Response.CREATED.getStatusCode());
+                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "SUCCESS"));
+            }
+        });
+
+        // CREATE DONATION REQUEST
+        post("/charities/:id/requests", "application/json", (request, response) -> {
+            DonationRequest donationRequest = gson.fromJson(request.body(), DonationRequest.class);
+            Charity charity = charityDao.get(parseInt(request.params("id")));
+
+            if(charity == null){
+                throw new ApiException(String.format("No charity with id %s exists", request.params("id")), Response.NOT_FOUND);
+            } else if (donationRequest == null) {
+                throw new ApiException("No input provided", Response.BAD_REQUEST);
+            } else if (donationRequestDao.getDonationRequests().contains(donationRequest)) {
+                throw new ApiException("Duplicates not allowed", Response.CONFLICT);
+            } else {
+                // Add additional details before insert
+                donationRequest.setCharity_id(charity.getId());
+                donationRequestDao.add(donationRequest);
                 response.status(Response.CREATED.getStatusCode());
                 return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "SUCCESS"));
             }
