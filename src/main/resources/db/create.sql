@@ -15,7 +15,8 @@ CREATE TABLE donation_requests(
     message VARCHAR,
     location VARCHAR,
     charity_id INT,
-    created_at TIMESTAMP
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
 );
 
  CREATE TABLE food_donations(
