@@ -13,6 +13,7 @@ CREATE TABLE charities(
 CREATE TABLE donation_requests(
     id serial PRIMARY KEY,
     message VARCHAR,
+    location VARCHAR,
     charity_id INT
 );
 
