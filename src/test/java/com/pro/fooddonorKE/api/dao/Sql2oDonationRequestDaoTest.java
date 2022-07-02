@@ -71,6 +71,25 @@ class Sql2oDonationRequestDaoTest {
     assertEquals(request, donationRequestDao.getDonationRequests().get(0));
   }
 
+  @Test
+  public void delete_deletesDonationRequest_false(DonationRequest request) {
+    donationRequestDao.add(request);
+    donationRequestDao.delete(request.getId());
+    assertFalse(donationRequestDao.getDonationRequests().contains(request));
+  }
+
+  @Test
+  public void delete_deletesAllDonationRequests_true(DonationRequest request) {
+    donationRequestDao.add(request);
+    donationRequestDao.add(setUpRequest());
+    donationRequestDao.deleteAll();
+    assertEquals(0, donationRequestDao.getDonationRequests().size());
+  }
+
+  public DonationRequest setUpRequest(){
+    return new DonationRequest("Huruma Center needs groceries", "Huruma", 2);
+  }
+
   @AfterEach
   public void tearDown() {
     donationRequestDao.deleteAll();
