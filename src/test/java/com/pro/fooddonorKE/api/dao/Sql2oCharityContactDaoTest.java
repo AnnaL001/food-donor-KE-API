@@ -1,6 +1,7 @@
 package com.pro.fooddonorKE.api.dao;
 
 import com.pro.fooddonorKE.api.dao.parameter_resolver.CharityContactParameterResolver;
+import com.pro.fooddonorKE.api.models.Charity;
 import com.pro.fooddonorKE.api.models.CharityContact;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +35,16 @@ class Sql2oCharityContactDaoTest {
     contactDao.add(contact);
     assertNotEquals(0, contact.getId());
   }
+
+  @Test
+  @DisplayName("Test that a charity's contact can be retrieved")
+  public void getContact_retrievesCharityContact(CharityContact contact) {
+    contactDao.add(contact);
+    CharityContact foundContact = contactDao.getContact(contact.getCharity_id());
+    assertEquals(contact, foundContact);
+  }
+
+
 
   @AfterEach
   public void tearDown() {
