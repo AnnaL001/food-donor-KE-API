@@ -2,11 +2,15 @@ package com.pro.fooddonorKE.api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.pro.fooddonorKE.api.dao.Sql2oCharityContactDao;
 import com.pro.fooddonorKE.api.dao.Sql2oCharityDao;
+import com.pro.fooddonorKE.api.dao.Sql2oFoodDonationDao;
 import com.pro.fooddonorKE.api.dao.Sql2oImageDao;
 import com.pro.fooddonorKE.api.enums.Response;
 import com.pro.fooddonorKE.api.exception.ApiException;
 import com.pro.fooddonorKE.api.models.Charity;
+import com.pro.fooddonorKE.api.models.CharityContact;
+import com.pro.fooddonorKE.api.models.FoodDonation;
 import com.pro.fooddonorKE.api.models.Image;
 import com.pro.fooddonorKE.api.response.ApiResponse;
 import org.sql2o.Sql2o;
@@ -22,6 +26,8 @@ public class Main {
         Sql2o sql2o = new Sql2o("jdbc:postgresql://localhost:5432/fooddonorke", "anna", "pol1234");
         Sql2oCharityDao charityDao = new Sql2oCharityDao(sql2o);
         Sql2oImageDao imageDao = new Sql2oImageDao(sql2o);
+        Sql2oFoodDonationDao foodDonationDao = new Sql2oFoodDonationDao(sql2o);
+        Sql2oCharityContactDao charityContactDao = new Sql2oCharityContactDao(sql2o);
         Gson gson = new Gson();
 
         // CREATE CHARITY
@@ -61,8 +67,8 @@ public class Main {
         });
 
         // CREATE DESCRIPTION IMAGES
-        post("charities/:id/images/secondary", "application/json", (request, response) -> {
-            List<Image> images = gson.fromJson(request.body(), new TypeToken<List<Image>>() {}.getType());
+        post("/charities/:id/images/secondary", "application/json", (request, response) -> {
+            List<Image> images = gson.fromJson(request.body(), new TypeToken<ArrayList<Image>>() {}.getType());
             Charity charity = charityDao.get(parseInt(request.params("id")));
 
             if (charity == null){
@@ -71,23 +77,62 @@ public class Main {
                 throw new ApiException("No input provided", Response.BAD_REQUEST);
             } else  {
                 // Add additional details before insert
-                List<Image> transformedImages = new ArrayList<>();
-
-                for (Image image: images) {
+                for (int i = 0; i < images.size() ; i++) {
+                    Image image = images.get(i);
                     image.setType(Image.SECONDARY_TYPE);
                     image.setCharity_id(parseInt(request.params("id")));
-                    transformedImages.add(image);
+                    images.set(i, image);
                 }
 
-                imageDao.add(transformedImages);
+                imageDao.add(images);
                 response.status(Response.CREATED.getStatusCode());
                 return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "SUCCESS"));
             }
         });
 
         // CREATE FOOD DONATION TYPES
+        post("/charities/:id/fooddonations", "application/json", (request, response) -> {
+            List<FoodDonation> foodDonations =  gson.fromJson(request.body(), new TypeToken<ArrayList<FoodDonation>>() {}.getType());
+            Charity charity = charityDao.get(parseInt(request.params("id")));
+
+            if(charity == null){
+                throw new ApiException(String.format("No charity with id %s exists", request.params("id")), Response.NOT_FOUND);
+            } else if (foodDonations == null){
+                throw new ApiException("No input provided", Response.BAD_REQUEST);
+            } else {
+                // Add additional details before insert
+                for (int i = 0; i < foodDonations.size(); i++) {
+                    FoodDonation foodDonation = foodDonations.get(i);
+                    foodDonation.setCharity_id(charity.getId());
+                    foodDonations.set(i, foodDonation);
+                }
+
+                foodDonationDao.add(foodDonations);
+                response.status(Response.CREATED.getStatusCode());
+                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "SUCCESS"));
+            }
+        });
 
         // CREATE CHARITY CONTACT
+        post("/charities/:id/contacts", "application/json", (request, response) -> {
+            CharityContact contact = gson.fromJson(request.body(), CharityContact.class);
+            Charity charity = charityDao.get(parseInt(request.params("id")));
+
+            if (charity == null){
+                throw new ApiException(String.format("No charity with id %s exists", request.params("id")), Response.NOT_FOUND);
+            } else if (contact == null) {
+                throw new ApiException("No input provided", Response.BAD_REQUEST);
+            } else if (charityContactDao.getAll().contains(contact)){
+                throw new ApiException("Duplicates not allowed", Response.CONFLICT);
+            } else {
+                // Add additional details before insert
+                contact.setCharity_id(charity.getId());
+
+                charityContactDao.add(contact);
+                response.status(Response.CREATED.getStatusCode());
+                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "SUCCESS"));
+            }
+        });
 
         //FILTERS
         exception(ApiException.class, (exception, request, response) -> {
