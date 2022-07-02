@@ -92,7 +92,7 @@ public class Sql2oCharityDao implements FoodDonorKeDao<Charity> {
     }
 
     public List<Charity> getCharitiesByType(String type){
-        String query = "SELECT * FROM charities WHERE type = :type";
+        String query = "SELECT * FROM charities WHERE type LIKE CONCAT('%',:type,'%')";
         List<Charity> charities;
 
         try(Connection connection = sql2o.open()){
