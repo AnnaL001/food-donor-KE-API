@@ -68,7 +68,26 @@ class Sql2oCharityDaoTest {
     assertEquals(charity, charityDao.get(charity.getId()));
   }
 
+  @Test
+  @DisplayName("Test that a charity's data can be deleted")
+  public void delete_deletesCharity_false(Charity charity) {
+    charityDao.add(charity);
+    charityDao.delete(charity.getId());
+    assertFalse(charityDao.getAll().contains(charity));
+  }
 
+  @Test
+  @DisplayName("Test that all charities data can be deleted")
+  public void deleteAll_deletesAllCharities_true(Charity charity) {
+    charityDao.add(charity);
+    charityDao.add(setUpCharity());
+    charityDao.deleteAll();
+    assertEquals(0, charityDao.getAll().size());
+  }
+
+  public Charity setUpCharity(){
+    return new Charity("Huruma Center", "Education Charity", "Huruma", "A school for the differently abled", "https://www.hurumacenter.edu");
+  }
 
   @AfterEach
   public void tearDown() {
