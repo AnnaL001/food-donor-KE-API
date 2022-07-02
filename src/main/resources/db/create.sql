@@ -14,7 +14,8 @@ CREATE TABLE donation_requests(
     id serial PRIMARY KEY,
     message VARCHAR,
     location VARCHAR,
-    charity_id INT
+    charity_id INT,
+    created_at TIMESTAMP
 );
 
  CREATE TABLE food_donations(
