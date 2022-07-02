@@ -1,14 +1,12 @@
 package com.pro.fooddonorKE.api.dao;
 
 import com.pro.fooddonorKE.api.dao.parameter_resolver.CharityContactParameterResolver;
-import com.pro.fooddonorKE.api.models.Charity;
 import com.pro.fooddonorKE.api.models.CharityContact;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;

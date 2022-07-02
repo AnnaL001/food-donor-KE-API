@@ -1,7 +1,6 @@
 package com.pro.fooddonorKE.api.dao;
 
 import com.pro.fooddonorKE.api.dao.parameter_resolver.DonationRequestParameterResolver;
-import com.pro.fooddonorKE.api.interfaces.DonationRequestDao;
 import com.pro.fooddonorKE.api.models.DonationRequest;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
