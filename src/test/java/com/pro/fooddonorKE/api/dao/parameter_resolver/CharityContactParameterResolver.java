@@ -14,6 +14,6 @@ public class CharityContactParameterResolver implements ParameterResolver {
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return new CharityContact("+254701987905", "info@ourheartchildrenhome.org", "https://www.facebook.com", "https://www.twitter.com", "https://www.instagram.com", 1);
+    return new CharityContact("+254701987905", "info@ourheartchildrenhome.org", "https://www.facebook.com", "https://www.twitter.com", "https://www.instagram.com");
   }
 }
