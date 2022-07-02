@@ -14,6 +14,6 @@ public class ImageParameterResolver implements ParameterResolver {
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return new Image("https://image.png", "primary", 1);
+    return new Image("https://image.png", Image.PRIMARY_TYPE, 1);
   }
 }
