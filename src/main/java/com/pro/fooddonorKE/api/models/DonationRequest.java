@@ -8,6 +8,7 @@ public class DonationRequest {
     private String message;
     private int charity_id;
     private Timestamp created_at;
+    private Timestamp updated_at;
 
     private String location;
 
@@ -51,6 +52,14 @@ public class DonationRequest {
 
     public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
+    }
+
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
     }
 
     public String getLocation() {
