@@ -14,14 +14,13 @@ public class CharityContact {
     public CharityContact() {
     }
 
-    public CharityContact(String phone, String email, String facebook, String twitter, String instagram, int charity_id) {
+    public CharityContact(String phone, String email, String facebook, String twitter, String instagram) {
         this.id = 0;
         this.phone = phone;
         this.email = email;
         this.facebook = facebook;
         this.twitter = twitter;
         this.instagram = instagram;
-        this.charity_id = charity_id;
     }
 
     public int getId() {
@@ -85,11 +84,11 @@ public class CharityContact {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CharityContact contact = (CharityContact) o;
-        return charity_id == contact.charity_id && Objects.equals(phone, contact.phone) && Objects.equals(email, contact.email) && Objects.equals(facebook, contact.facebook) && Objects.equals(twitter, contact.twitter) && Objects.equals(instagram, contact.instagram);
+        return Objects.equals(phone, contact.phone) && Objects.equals(email, contact.email) && Objects.equals(facebook, contact.facebook) && Objects.equals(twitter, contact.twitter) && Objects.equals(instagram, contact.instagram);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(phone, email, facebook, twitter, instagram, charity_id);
+        return Objects.hash(phone, email, facebook, twitter, instagram);
     }
 }
