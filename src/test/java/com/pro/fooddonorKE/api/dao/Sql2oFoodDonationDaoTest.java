@@ -37,6 +37,20 @@ class Sql2oFoodDonationDaoTest {
     assertNotEquals(0, donation.getId());
   }
 
+  @Test
+  @DisplayName("Test that a charity's food donation types can be retrieved")
+  public void getFoodDonations_retrieveFoodDonationsByCharity(FoodDonation donation) {
+    foodDonationDao.add(List.of(donation));
+    assertEquals(List.of(donation), foodDonationDao.getFoodDonations(donation.getCharity_id()));
+  }
+
+  @Test
+  @DisplayName("Test that all charity food donation types can be retrieved")
+  public void getFoodDonations_retrievesAllFoodDonations_true(FoodDonation donation) {
+    foodDonationDao.add(List.of(donation));
+    assertEquals(List.of(donation), foodDonationDao.getFoodDonations());
+  }
+
 
 
   @AfterEach
