@@ -21,11 +21,13 @@ public class Sql2oFoodDonationDao implements FoodDonationDao {
     try(Connection connection = sql2o.open()){
       String query = "INSERT INTO food_donations(name, charity_id) VALUES (:name, :charity_id)";
       for (FoodDonation donation: donations) {
-        int id = (int) connection.createQuery(query, true)
-                .bind(donation)
-                .executeUpdate()
-                .getKey();
-        donation.setId(id);
+        if (!getFoodDonations().contains(donation)){
+          int id = (int) connection.createQuery(query, true)
+                  .bind(donation)
+                  .executeUpdate()
+                  .getKey();
+          donation.setId(id);
+        }
       }
     } catch (Sql2oException exception){
       exception.printStackTrace();
