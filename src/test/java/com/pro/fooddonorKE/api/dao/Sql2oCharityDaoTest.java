@@ -31,6 +31,7 @@ class Sql2oCharityDaoTest {
   }
 
   @Test
+  @DisplayName("Test that a charity's id is set upon insert")
   public void add_setsNewId_true(Charity charity) {
     int initialId = charity.getId();
     charityDao.add(charity);
@@ -38,6 +39,7 @@ class Sql2oCharityDaoTest {
   }
 
   @Test
+
   @DisplayName("Test that the list of charities can be retrieved")
   public void getAll_retrievesCharity_true(Charity charity) {
     charityDao.add(charity);
@@ -54,6 +56,7 @@ class Sql2oCharityDaoTest {
   }
 
   @Test
+  @DisplayName("Test that a charity's data can be updated")
   public void update_updatesCharityData_true(Charity charity) {
     charityDao.add(charity);
 
