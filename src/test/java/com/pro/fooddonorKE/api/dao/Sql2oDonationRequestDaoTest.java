@@ -59,7 +59,17 @@ class Sql2oDonationRequestDaoTest {
     assertEquals(List.of(request), donationRequestDao.getDonationRequests());
   }
 
+  @Test
+  public void update_updatesDonationRequest_true(DonationRequest request) {
+    donationRequestDao.add(request);
 
+    // Update request
+    request.setMessage("Prepared food required at Our Heart's Children's Home");
+    request.setLocation("Westlands, Waiyaki way");
+    donationRequestDao.update(request);
+
+    assertEquals(request, donationRequestDao.getDonationRequests().get(0));
+  }
 
   @AfterEach
   public void tearDown() {
