@@ -9,7 +9,7 @@ public class Charity {
     private String image;
     private String name;
     private String description;
-    private List<String> descriptionImages;
+    private List<Image> descriptionImages;
     private String type;
     private String location;
     private List<FoodDonation> foodDonations;
@@ -64,11 +64,11 @@ public class Charity {
         this.description = description;
     }
 
-    public List<String> getDescriptionImages() {
+    public List<Image> getDescriptionImages() {
         return descriptionImages;
     }
 
-    public void setDescriptionImages(List<String> descriptionImages) {
+    public void setDescriptionImages(List<Image> descriptionImages) {
         this.descriptionImages = descriptionImages;
     }
 
