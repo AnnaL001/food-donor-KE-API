@@ -76,7 +76,7 @@ public class Sql2oCharityDao implements FoodDonorKeDao<Charity> {
     }
 
     public List<Charity> getCharitiesByLocation(String location){
-        String query = "SELECT * FROM charities WHERE location = :location";
+        String query = "SELECT * FROM charities WHERE location LIKE CONCAT('%',:location,'%')";
         List<Charity> charities;
 
         try(Connection connection = sql2o.open()){
