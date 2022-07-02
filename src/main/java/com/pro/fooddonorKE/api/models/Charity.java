@@ -2,6 +2,7 @@ package com.pro.fooddonorKE.api.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Charity {
     private int id;
@@ -15,7 +16,10 @@ public class Charity {
     private CharityContact contacts;
     private String website;
 
-    public Charity(int id, String name, String type, String location, String description, String website) {
+    public Charity() {
+    }
+
+    public Charity(String name, String type, String location, String description, String website) {
         this.id = 0;
         this.image = "";
         this.name = name;
@@ -106,5 +110,18 @@ public class Charity {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Charity charity = (Charity) o;
+        return Objects.equals(name, charity.name) && Objects.equals(type, charity.type) && Objects.equals(location, charity.location) && Objects.equals(description, charity.description) && Objects.equals(website, charity.website);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, type, location, description, website);
     }
 }
