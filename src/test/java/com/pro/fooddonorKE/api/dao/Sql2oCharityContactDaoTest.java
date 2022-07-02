@@ -8,6 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(CharityContactParameterResolver.class)
@@ -42,6 +45,14 @@ class Sql2oCharityContactDaoTest {
     contactDao.add(contact);
     CharityContact foundContact = contactDao.get(contact.getCharity_id());
     assertEquals(contact, foundContact);
+  }
+
+  @Test
+  @DisplayName("Test that all contacts can be retrieved")
+  public void getAll_retrievesAllContacts(CharityContact contact) {
+    contactDao.add(contact);
+    CharityContact[] contacts = {contact};
+    assertEquals(Collections.singletonList(contact), contactDao.getAll());
   }
 
   @Test
