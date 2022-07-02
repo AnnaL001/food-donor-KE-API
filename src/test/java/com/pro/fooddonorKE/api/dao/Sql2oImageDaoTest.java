@@ -45,6 +45,28 @@ class Sql2oImageDaoTest {
     assertEquals(setUpDescriptionImages(), imageDao.getImages());
   }
 
+  @Test
+  @DisplayName("Test that a charity's description images can be retrieved")
+  public void getDescriptionImages_retrievesDescriptionImages_true() {
+    imageDao.add(setUpDescriptionImages());
+    assertEquals(setUpDescriptionImages(), imageDao.getDescriptionImages(1));
+  }
+
+  @Test
+  @DisplayName("Test that a charity's image can be retrieved")
+  public void getImage_retrievesImage_true(Image image) {
+    imageDao.add(image);
+    assertEquals(image, imageDao.getImage(image.getId()));
+
+  }
+
+  @Test
+  public void getImages_retrievesAllImages_true(Image image) {
+    imageDao.add(image);
+    imageDao.add(setUpDescriptionImages());
+    assertEquals(3, imageDao.getImages().size());
+  }
+
 
   public List<Image> setUpDescriptionImages() {
     return new ArrayList<>(List.of(
