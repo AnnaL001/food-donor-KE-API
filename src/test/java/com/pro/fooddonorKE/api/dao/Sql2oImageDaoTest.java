@@ -99,8 +99,8 @@ class Sql2oImageDaoTest {
 
   public List<Image> setUpDescriptionImages() {
     return new ArrayList<>(List.of(
-            new Image("https://www.image1.png", "secondary", 1),
-            new Image("https://www.image2.png", "secondary", 1)));
+            new Image("https://www.image1.png", Image.SECONDARY_TYPE, 1),
+            new Image("https://www.image2.png", Image.SECONDARY_TYPE, 1)));
   }
 
   @AfterEach
