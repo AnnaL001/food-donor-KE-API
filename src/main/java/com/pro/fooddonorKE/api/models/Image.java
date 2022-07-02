@@ -8,6 +8,9 @@ public class Image {
   private String type;
   private int charity_id;
 
+  public static final String PRIMARY_TYPE = "primary";
+  public static final String SECONDARY_TYPE = "secondary";
+
   public Image() {
   }
 
