@@ -7,6 +7,8 @@ public class ApiResponse {
   private String message;
   private JsonElement data;
 
+  public static final String SUCCESS_MESSAGE = "SUCCESS";
+
 
   public ApiResponse(int status, String message) {
     this.status = status;
