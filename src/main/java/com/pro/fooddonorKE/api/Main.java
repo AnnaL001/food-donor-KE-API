@@ -189,10 +189,32 @@ public class Main {
         });
 
         // READ DONATION REQUESTS BY LOCATION
+        get("/requests/locations", "application/json", (request, response) -> {
+            List<DonationRequest> requests = donationRequestDao.getDonationRequests(request.queryParams("location"));
+
+            if (requests == null){
+                throw new ApiException("Not a valid argument for 'location'", Response.BAD_REQUEST);
+            } else if (requests.size() == 0) {
+                throw new ApiException(String.format("No requests of location '%s' listed", request.queryParams("location")), Response.NOT_FOUND);
+            } else {
+                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(requests));
+                return gson.toJson(apiResponse);
+            }
+        });
 
         // READ DONATION REQUESTS BY CHARITY
+        get("charities/:id/requests", "application/json", (request, response) -> {
+            List<DonationRequest> requests = donationRequestDao.getDonationRequests(parseInt(request.params("id")));
 
-        // READ DONATION REQUEST
+            if (requests == null){
+                throw new ApiException(String.format("No charity with id '%s' listed", request.params("id")), Response.NOT_FOUND);
+            } else if (requests.size() == 0) {
+                throw new ApiException(String.format("No requests by charity '%s' listed", request.params("id")), Response.NOT_FOUND);
+            } else {
+                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(requests));
+                return gson.toJson(apiResponse);
+            }
+        });
 
         //FILTERS
         exception(ApiException.class, (exception, request, response) -> {
