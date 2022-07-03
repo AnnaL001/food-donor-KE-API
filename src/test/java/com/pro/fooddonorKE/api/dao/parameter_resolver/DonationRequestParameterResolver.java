@@ -14,6 +14,6 @@ public class DonationRequestParameterResolver implements ParameterResolver {
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return new DonationRequest("Groceries needed at Our Hearts Children's Home", "Westlands", 1);
+    return new DonationRequest("Groceries needed at Our Hearts Children's Home", "Westlands");
   }
 }
