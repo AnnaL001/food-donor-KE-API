@@ -89,7 +89,7 @@ class Sql2oDonationRequestDaoTest {
   }
 
   public DonationRequest setUpRequest(){
-    return new DonationRequest("Huruma Center needs groceries", "Huruma", 2);
+    return new DonationRequest("Huruma Center needs groceries", "Huruma");
   }
 
   @AfterEach
