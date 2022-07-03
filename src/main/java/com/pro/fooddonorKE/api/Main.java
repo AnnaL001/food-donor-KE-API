@@ -255,6 +255,7 @@ public class Main {
         CharityContact contact = charityContactDao.get(charity.getId());
 
         Map<String, Object> charityMap = new HashMap<>();
+        charityMap.put("id", charity.getId());
         charityMap.put("image", image.getUrl());
         charityMap.put("name", charity.getName());
         charityMap.put("description", charity.getDescription());
