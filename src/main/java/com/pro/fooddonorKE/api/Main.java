@@ -21,7 +21,16 @@ public class Main {
     static Sql2oFoodDonationDao foodDonationDao = new Sql2oFoodDonationDao(sql2o);
     static Sql2oCharityContactDao charityContactDao = new Sql2oCharityContactDao(sql2o);
 
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567; //return default port if heroku-port isn't set;on localhost
+    }
+
     public static void main(String[] args) {
+        port(getHerokuAssignedPort());
         Sql2oDonationRequestDao donationRequestDao = new Sql2oDonationRequestDao(sql2o);
         Gson gson = new Gson();
 
@@ -228,27 +237,65 @@ public class Main {
         after((request, response) -> response.type("application/json"));
     }
 
-    public static List<Charity> transformCharityList(List<Charity> charities){
-        ArrayList<Charity> charityArrayList = (ArrayList<Charity>) charities;
+    public static List<Map<String,Object>> transformCharityList(List<Charity> charities){
+        List<Map<String,Object>> transformedList = new ArrayList<>();
 
-        charityArrayList.replaceAll(Main::transformCharity);
+        // Transform list
+        for (Charity charity: charities) {
+            transformedList.add(transformCharity(charity));
+        }
 
-        return charityArrayList;
+        return transformedList;
     }
 
-    public static Charity transformCharity(Charity charity){
+    public static Map<String,Object> transformCharity(Charity charity){
         Image image = imageDao.getImage(charity.getId());
         List<Image> images = imageDao.getDescriptionImages(charity.getId());
         List<FoodDonation> foodDonations = foodDonationDao.getFoodDonations(charity.getId());
         CharityContact contact = charityContactDao.get(charity.getId());
 
-        // Transform charity
-        charity.setImage(image.getUrl());
-        charity.setDescriptionImages(images);
-        charity.setFoodDonationTypes(foodDonations);
-        charity.setContacts(contact);
+        Map<String, Object> charityMap = new HashMap<>();
+        charityMap.put("image", image.getUrl());
+        charityMap.put("name", charity.getName());
+        charityMap.put("description", charity.getDescription());
+        charityMap.put("descriptionImages", transformImages(images));
+        charityMap.put("type", charity.getType());
+        charityMap.put("location", charity.getLocation());
+        charityMap.put("fooddonations", transformFoodDonations(foodDonations));
+        charityMap.put("contacts", transformContact(contact));
+        charityMap.put("website", charity.getWebsite());
 
+        return charityMap;
+    }
 
-        return charity;
+    public static List<String> transformImages(List<Image> images){
+        List<String> transformedImages = new ArrayList<>();
+
+        for (Image image: images) {
+            transformedImages.add(image.getUrl());
+        }
+
+        return transformedImages;
+    }
+
+    public static List<String> transformFoodDonations(List<FoodDonation> foodDonations){
+        List<String> transformedFoodDonations = new ArrayList<>();
+
+        for (FoodDonation foodDonation: foodDonations) {
+            transformedFoodDonations.add(foodDonation.getName());
+        }
+
+        return transformedFoodDonations;
+    }
+
+    public static Map<String, String> transformContact(CharityContact contact){
+        Map<String, String> transformedContact = new HashMap<>();
+        transformedContact.put("phone", contact.getPhone());
+        transformedContact.put("email", contact.getEmail());
+        transformedContact.put("facebook", contact.getFacebook());
+        transformedContact.put("twitter", contact.getTwitter());
+        transformedContact.put("instagram", contact.getInstagram());
+
+        return transformedContact;
     }
 }
