@@ -20,6 +20,7 @@ public class Main {
     static Sql2oImageDao imageDao = new Sql2oImageDao(sql2o);
     static Sql2oFoodDonationDao foodDonationDao = new Sql2oFoodDonationDao(sql2o);
     static Sql2oCharityContactDao charityContactDao = new Sql2oCharityContactDao(sql2o);
+
     public static void main(String[] args) {
         Sql2oDonationRequestDao donationRequestDao = new Sql2oDonationRequestDao(sql2o);
         Gson gson = new Gson();
@@ -34,7 +35,7 @@ public class Main {
             } else {
                 charityDao.add(charity);
                 response.status(Response.CREATED.getStatusCode());
-                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "SUCCESS"));
+                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), ApiResponse.SUCCESS_MESSAGE));
             }
         });
 
@@ -56,7 +57,7 @@ public class Main {
 
                 imageDao.add(image);
                 response.status(Response.CREATED.getStatusCode());
-                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "SUCCESS"));
+                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), ApiResponse.SUCCESS_MESSAGE));
             }
         });
 
@@ -80,7 +81,7 @@ public class Main {
 
                 imageDao.add(images);
                 response.status(Response.CREATED.getStatusCode());
-                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "SUCCESS"));
+                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), ApiResponse.SUCCESS_MESSAGE));
             }
         });
 
@@ -103,7 +104,7 @@ public class Main {
 
                 foodDonationDao.add(foodDonations);
                 response.status(Response.CREATED.getStatusCode());
-                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "SUCCESS"));
+                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), ApiResponse.SUCCESS_MESSAGE));
             }
         });
 
@@ -124,7 +125,7 @@ public class Main {
 
                 charityContactDao.add(contact);
                 response.status(Response.CREATED.getStatusCode());
-                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "SUCCESS"));
+                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), ApiResponse.SUCCESS_MESSAGE));
             }
         });
 
@@ -144,7 +145,7 @@ public class Main {
                 donationRequest.setCharity_id(charity.getId());
                 donationRequestDao.add(donationRequest);
                 response.status(Response.CREATED.getStatusCode());
-                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "SUCCESS"));
+                return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), ApiResponse.SUCCESS_MESSAGE));
             }
         });
 
@@ -157,7 +158,7 @@ public class Main {
             } else if(charities.size() == 0){
                 throw new ApiException(String.format("No charities in location '%s' listed", request.queryParams("location")), Response.NOT_FOUND);
             } else {
-                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(transformCharityList(charities)));
+                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), ApiResponse.SUCCESS_MESSAGE, new Gson().toJsonTree(transformCharityList(charities)));
                 return gson.toJson(apiResponse);
             }
         });
@@ -171,7 +172,7 @@ public class Main {
             } else if(charities.size() == 0){
                 throw new ApiException(String.format("No charities of type '%s' listed", request.queryParams("type")), Response.NOT_FOUND);
             } else {
-                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(transformCharityList(charities)));
+                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), ApiResponse.SUCCESS_MESSAGE, new Gson().toJsonTree(transformCharityList(charities)));
                 return gson.toJson(apiResponse);
             }
         });
@@ -183,7 +184,7 @@ public class Main {
             if (charity == null){
                 throw new ApiException(String.format("No charity with id '%s' listed", request.params("id")), Response.NOT_FOUND);
             } else {
-                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(charity));
+                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), ApiResponse.SUCCESS_MESSAGE, new Gson().toJsonTree(charity));
                 return gson.toJson(apiResponse);
             }
         });
@@ -197,7 +198,7 @@ public class Main {
             } else if (requests.size() == 0) {
                 throw new ApiException(String.format("No requests of location '%s' listed", request.queryParams("location")), Response.NOT_FOUND);
             } else {
-                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(requests));
+                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), ApiResponse.SUCCESS_MESSAGE, new Gson().toJsonTree(requests));
                 return gson.toJson(apiResponse);
             }
         });
@@ -211,7 +212,7 @@ public class Main {
             } else if (requests.size() == 0) {
                 throw new ApiException(String.format("No requests by charity '%s' listed", request.params("id")), Response.NOT_FOUND);
             } else {
-                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(requests));
+                ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), ApiResponse.SUCCESS_MESSAGE, new Gson().toJsonTree(requests));
                 return gson.toJson(apiResponse);
             }
         });
