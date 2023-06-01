@@ -2,6 +2,8 @@
 An API containing a list of Non-Governmental organizations/charities that collect food for the needy. It is to be consumed the FoodDonorKE mobile application.
 
 ## Description
+**Database to be moved from Heroku**
+
 **Endpoints**
 ### GET & DELETE
 | **URL**                              | **HTTP VERB**       | **DESCRIPTION**                       |
@@ -11,4 +13,5 @@ An API containing a list of Non-Governmental organizations/charities that collec
 | /charities/:id                       | GET                 | Retrieve a charity by its id          |
 | /requests/locations                  | GET                 | Retrieve donation requests by location|
 | charities/:id/requests               | GET                 | Retrieve donation requests by charity |
+
 
